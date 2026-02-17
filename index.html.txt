@@ -1,1022 +1,945 @@
-index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Loja Achados Matrixdebh</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; }
-        
-        .shopee-gradient {
-            background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
-        }
-        
-        .shopee-orange { color: #ee4d2d; }
-        .shopee-bg { background-color: #ee4d2d; }
-        
-        .hover-lift {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .hover-lift:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .flash-sale-progress {
-            background: linear-gradient(90deg, #ee4d2d 0%, #ff7337 100%);
-        }
-        
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .category-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .float-animation { animation: float 3s ease-in-out infinite; }
-        
-        .countdown-number {
-            background: #000;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-family: monospace;
-        }
-        
-        .product-badge {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-        }
-        
-        .search-shadow {
-            box-shadow: 0 4px 6px -1px rgba(238, 77, 45, 0.1), 0 2px 4px -1px rgba(238, 77, 45, 0.06);
-        }
-    </style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Text2Video Studio - Crie Vídeos com Texto</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+   <style>
+       * {
+           font-family: 'Inter', sans-serif;
+       }
+       h1, h2, h3, .brand {
+           font-family: 'Space Grotesk', sans-serif;
+       }
+       
+       /* Custom Scrollbar */
+       ::-webkit-scrollbar {
+           width: 8px;
+           height: 8px;
+       }
+       ::-webkit-scrollbar-track {
+           background: #0f172a;
+       }
+       ::-webkit-scrollbar-thumb {
+           background: #334155;
+           border-radius: 4px;
+       }
+       ::-webkit-scrollbar-thumb:hover {
+           background: #475569;
+       }
+
+       /* Glassmorphism */
+       .glass {
+           background: rgba(15, 23, 42, 0.7);
+           backdrop-filter: blur(12px);
+           -webkit-backdrop-filter: blur(12px);
+           border: 1px solid rgba(255, 255, 255, 0.1);
+       }
+
+       .glass-panel {
+           background: rgba(30, 41, 59, 0.6);
+           backdrop-filter: blur(10px);
+           border: 1px solid rgba(255, 255, 255, 0.05);
+       }
+
+       /* Animations */
+       @keyframes gradient-shift {
+           0%, 100% { background-position: 0% 50%; }
+           50% { background-position: 100% 50%; }
+       }
+
+       .gradient-bg {
+           background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0f172a);
+           background-size: 400% 400%;
+           animation: gradient-shift 15s ease infinite;
+       }
+
+       .scene-card {
+           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       }
+       .scene-card:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.3);
+       }
+
+       .preview-text {
+           text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+           animation: fadeInUp 0.6s ease-out;
+       }
+
+       @keyframes fadeInUp {
+           from {
+               opacity: 0;
+               transform: translateY(20px);
+           }
+           to {
+               opacity: 1;
+               transform: translateY(0);
+           }
+       }
+
+       .timeline-track {
+           background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
+       }
+
+       .playhead {
+           box-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+       }
+
+       /* Range Slider Styling */
+       input[type=range] {
+           -webkit-appearance: none;
+           background: transparent;
+       }
+       input[type=range]::-webkit-slider-thumb {
+           -webkit-appearance: none;
+           height: 16px;
+           width: 16px;
+           border-radius: 50%;
+           background: #6366f1;
+           cursor: pointer;
+           margin-top: -6px;
+           box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+       }
+       input[type=range]::-webkit-slider-runnable-track {
+           width: 100%;
+           height: 4px;
+           cursor: pointer;
+           background: #334155;
+           border-radius: 2px;
+       }
+
+       /* Recording Animation */
+       @keyframes pulse-ring {
+           0% { transform: scale(0.8); opacity: 0.5; }
+           100% { transform: scale(2); opacity: 0; }
+       }
+       .recording-dot {
+           animation: pulse 2s infinite;
+       }
+       @keyframes pulse {
+           0%, 100% { opacity: 1; }
+           50% { opacity: 0.5; }
+       }
+   </style>
 </head>
-<body class="bg-gray-50">
+<body class="gradient-bg text-white min-h-screen overflow-x-hidden">
 
-    <!-- Header -->
-    <header class="shopee-gradient text-white sticky top-0 z-50">
-        <!-- Top Bar -->
-        <div class="container mx-auto px-4 py-2 text-xs flex justify-between items-center border-b border-white/20">
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-yellow-200 transition">Vendedor Central</a>
-                <span class="text-white/50">|</span>
-                <a href="#" class="hover:text-yellow-200 transition">Baixe o App</a>
-                <span class="text-white/50">|</span>
-                <span class="text-white/80">Conecte-se: Brasil</span>
-            </div>
-            <div class="flex space-x-4 items-center">
-                <a href="#" class="hover:text-yellow-200 transition"><i class="fas fa-bell mr-1"></i> Notificações</a>
-                <a href="#" class="hover:text-yellow-200 transition"><i class="fas fa-question-circle mr-1"></i> Ajuda</a>
-                <a href="#" class="hover:text-yellow-200 transition font-medium">Entrar</a>
-                <span class="text-white/50">|</span>
-                <a href="#" class="hover:text-yellow-200 transition font-medium">Cadastrar</a>
-            </div>
-        </div>
+   <!-- Header -->
+   <header class="fixed top-0 w-full z-50 glass border-b border-white/10">
+       <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+           <div class="flex items-center gap-3">
+               <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                   <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                   </svg>
+               </div>
+               <div>
+                   <h1 class="text-xl font-bold tracking-tight">Text2Video Studio</h1>
+                   <p class="text-xs text-slate-400">Crie vídeos profissionais com texto</p>
+               </div>
+           </div>
+           
+           <div class="flex items-center gap-4">
+               <button onclick="app.importProject()" class="px-4 py-2 text-sm text-slate-300 hover:text-white transition-colors">
+                   Importar
+               </button>
+               <button onclick="app.exportProject()" class="px-4 py-2 text-sm text-slate-300 hover:text-white transition-colors">
+                   Exportar JSON
+               </button>
+               <button onclick="app.renderVideo()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg shadow-indigo-600/30 flex items-center gap-2">
+                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                   </svg>
+                   Renderizar Vídeo
+               </button>
+           </div>
+       </div>
+   </header>
 
-        <!-- Main Header -->
-        <div class="container mx-auto px-4 py-4 flex items-center gap-6">
-            <!-- Logo -->
-            <div class="flex items-center space-x-2 cursor-pointer group">
-                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i class="fas fa-shopping-bag text-2xl shopee-orange"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight">ShopVerse</h1>
-                    <p class="text-xs text-white/80">Compre tudo aqui</p>
-                </div>
-            </div>
+   <!-- Main Content -->
+   <main class="pt-24 pb-8 px-6 max-w-7xl mx-auto grid grid-cols-12 gap-6 h-[calc(100vh-6rem)]">
+       
+       <!-- Left Panel: Scene Editor -->
+       <div class="col-span-4 flex flex-col gap-4 h-full overflow-hidden">
+           
+           <!-- Scene List -->
+           <div class="glass-panel rounded-2xl p-6 flex-1 overflow-hidden flex flex-col">
+               <div class="flex items-center justify-between mb-4">
+                   <h2 class="text-lg font-semibold flex items-center gap-2">
+                       <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                       </svg>
+                       Cenas
+                   </h2>
+                   <button onclick="app.addScene()" class="w-8 h-8 bg-indigo-600 hover:bg-indigo-500 rounded-lg flex items-center justify-center transition-colors">
+                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                       </svg>
+                   </button>
+               </div>
 
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-3xl">
-                <div class="bg-white rounded-sm flex items-center p-1 search-shadow">
-                    <input type="text" placeholder="Busque produtos, marcas e muito mais..." 
-                           class="flex-1 px-4 py-2 outline-none text-gray-700 text-sm">
-                    <button class="shopee-bg text-white px-6 py-2 rounded-sm hover:opacity-90 transition flex items-center gap-2">
-                        <i class="fas fa-search"></i>
-                        <span class="hidden sm:inline">Buscar</span>
-                    </button>
-                </div>
-                <div class="flex gap-3 mt-2 text-xs text-white/80">
-                    <a href="#" class="hover:text-white">iPhone 15</a>
-                    <a href="#" class="hover:text-white">Tênis Nike</a>
-                    <a href="#" class="hover:text-white">Fone Bluetooth</a>
-                    <a href="#" class="hover:text-white">Smart TV</a>
-                    <a href="#" class="hover:text-white">Maquiagem</a>
-                </div>
-            </div>
+               <div id="sceneList" class="space-y-3 overflow-y-auto flex-1 pr-2">
+                   <!-- Scenes will be injected here -->
+               </div>
+           </div>
 
-            <!-- Cart -->
-            <div class="relative cursor-pointer group">
-                <i class="fas fa-shopping-cart text-3xl hover:scale-110 transition-transform"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-yellow-400 text-red-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-red-500">3</span>
-            </div>
-        </div>
-    </header>
+           <!-- Current Scene Editor -->
+           <div id="sceneEditor" class="glass-panel rounded-2xl p-6 h-[45%] overflow-y-auto hidden">
+               <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wider mb-4">Editor de Cena</h3>
+               
+               <div class="space-y-4">
+                   <div>
+                       <label class="block text-sm font-medium mb-2">Texto na Tela</label>
+                       <textarea id="sceneText" oninput="app.updateCurrentScene()" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none h-24" placeholder="Digite o texto que aparecerá no vídeo..."></textarea>
+                   </div>
 
-    <!-- Navigation Categories -->
-    <nav class="bg-white shadow-sm border-b">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between py-3 overflow-x-auto category-scroll">
-                <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-red-500 whitespace-nowrap font-medium px-3 py-1 rounded-full hover:bg-red-50 transition">
-                    <i class="fas fa-bars"></i> Categorias
-                </a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Eletrônicos</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Moda Feminina</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Moda Masculina</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Casa & Decoração</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Beleza</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Esportes</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Brinquedos</a>
-                <a href="#" class="text-gray-600 hover:text-red-500 whitespace-nowrap px-3 py-1 text-sm font-medium">Supermercado</a>
-            </div>
-        </div>
-    </nav>
+                   <div>
+                       <label class="block text-sm font-medium mb-2">Imagem de Fundo</label>
+                       <div class="grid grid-cols-4 gap-2 mb-2">
+                           <button onclick="app.setBackground('gradient')" class="h-12 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 hover:ring-2 ring-white transition-all"></button>
+                           <button onclick="app.setBackground('nature')" class="h-12 rounded-lg bg-gradient-to-br from-green-600 to-emerald-800 hover:ring-2 ring-white transition-all"></button>
+                           <button onclick="app.setBackground('dark')" class="h-12 rounded-lg bg-gradient-to-br from-slate-800 to-black hover:ring-2 ring-white transition-all"></button>
+                           <button onclick="app.setBackground('sunset')" class="h-12 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 hover:ring-2 ring-white transition-all"></button>
+                       </div>
+                       <input type="text" id="bgUrl" onchange="app.updateCurrentScene()" placeholder="Ou URL da imagem..." class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500">
+                   </div>
 
-    <!-- Hero Section -->
-    <section class="container mx-auto px-4 py-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 h-[400px]">
-            <!-- Main Banner -->
-            <div class="lg:col-span-8 relative rounded-lg overflow-hidden group cursor-pointer">
-                <div id="hero-slider" class="h-full relative">
-                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Promoção">
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
-                        <div class="p-8 text-white">
-                            <span class="bg-red-500 text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">SUPER OFERTA</span>
-                            <h2 class="text-4xl font-bold mb-2">Black Friday Antecipada</h2>
-                            <p class="text-lg mb-4">Até 70% OFF em produtos selecionados</p>
-                            <button class="bg-white text-red-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">Comprar Agora</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slider Dots -->
-                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                    <div class="w-3 h-3 bg-white rounded-full cursor-pointer"></div>
-                    <div class="w-3 h-3 bg-white/50 rounded-full cursor-pointer hover:bg-white"></div>
-                    <div class="w-3 h-3 bg-white/50 rounded-full cursor-pointer hover:bg-white"></div>
-                </div>
-            </div>
+                   <div class="grid grid-cols-2 gap-4">
+                       <div>
+                           <label class="block text-sm font-medium mb-2">Duração (s)</label>
+                           <input type="number" id="sceneDuration" onchange="app.updateCurrentScene()" min="1" max="60" value="5" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500">
+                       </div>
+                       <div>
+                           <label class="block text-sm font-medium mb-2">Animação</label>
+                           <select id="sceneAnimation" onchange="app.updateCurrentScene()" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500">
+                               <option value="fade">Fade In</option>
+                               <option value="slide">Slide Up</option>
+                               <option value="scale">Scale</option>
+                               <option value="typewriter">Typewriter</option>
+                           </select>
+                       </div>
+                   </div>
 
-            <!-- Side Banners -->
-            <div class="lg:col-span-4 flex flex-col gap-4">
-                <div class="flex-1 relative rounded-lg overflow-hidden group cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=200&fit=crop" 
-                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Moda">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                        <div class="text-white">
-                            <h3 class="font-bold text-lg">Moda Verão 2024</h3>
-                            <p class="text-sm">Novidades a partir de R$ 29,90</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1 relative rounded-lg overflow-hidden group cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=600&h=200&fit=crop" 
-                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Eletrônicos">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                        <div class="text-white">
-                            <h3 class="font-bold text-lg">Tech Week</h3>
-                            <p class="text-sm">Gadgets com 40% OFF</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                   <div>
+                       <label class="block text-sm font-medium mb-2">Narração (TTS)</label>
+                       <textarea id="sceneNarration" oninput="app.updateCurrentScene()" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none h-16" placeholder="Texto para narração em voz..."></textarea>
+                       <button onclick="app.playNarration()" class="mt-2 w-full py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors">
+                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                           </svg>
+                           Ouvir Narração
+                       </button>
+                   </div>
+               </div>
+           </div>
+       </div>
 
-    <!-- Categories Grid -->
-    <section class="container mx-auto px-4 py-6">
-        <div class="bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-gray-500 text-sm mb-4 uppercase tracking-wide">Categorias Populares</h3>
-            <div class="grid grid-cols-4 md:grid-cols-8 gap-4">
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-2 group-hover:bg-orange-200 transition">
-                        <i class="fas fa-mobile-alt text-2xl text-orange-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Celulares</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-2 group-hover:bg-blue-200 transition">
-                        <i class="fas fa-tshirt text-2xl text-blue-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Moda</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center mb-2 group-hover:bg-pink-200 transition">
-                        <i class="fas fa-magic text-2xl text-pink-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Beleza</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-2 group-hover:bg-green-200 transition">
-                        <i class="fas fa-home text-2xl text-green-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Casa</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-2 group-hover:bg-purple-200 transition">
-                        <i class="fas fa-laptop text-2xl text-purple-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Informática</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center mb-2 group-hover:bg-yellow-200 transition">
-                        <i class="fas fa-futbol text-2xl text-yellow-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Esportes</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-2 group-hover:bg-red-200 transition">
-                        <i class="fas fa-baby text-2xl text-red-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Infantil</span>
-                </div>
-                <div class="flex flex-col items-center group cursor-pointer">
-                    <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-2 group-hover:bg-indigo-200 transition">
-                        <i class="fas fa-car text-2xl text-indigo-600"></i>
-                    </div>
-                    <span class="text-xs text-gray-600 text-center">Automotivo</span>
-                </div>
-            </div>
-        </div>
-    </section>
+       <!-- Center: Preview -->
+       <div class="col-span-5 flex flex-col gap-4">
+           <div class="glass-panel rounded-2xl p-1 flex-1 relative overflow-hidden group">
+               <!-- Video Preview Area -->
+               <div id="previewContainer" class="w-full h-full bg-black rounded-xl relative overflow-hidden flex items-center justify-center">
+                   <div id="previewBackground" class="absolute inset-0 bg-gradient-to-br from-indigo-900 to-purple-900 transition-all duration-500"></div>
+                   
+                   <!-- Grid Overlay -->
+                   <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 20px 20px;"></div>
+                   
+                   <!-- Safe Zones -->
+                   <div class="absolute inset-8 border border-white/20 rounded-lg pointer-events-none"></div>
+                   <div class="absolute top-1/2 left-1/2 w-4 h-4 -mt-2 -ml-2 border border-white/30 rounded-full pointer-events-none"></div>
+                   
+                   <!-- Text Content -->
+                   <div id="previewText" class="relative z-10 text-center px-12 max-w-2xl">
+                       <h2 class="text-4xl font-bold mb-4 preview-text leading-tight">Seu Texto Aparecerá Aqui</h2>
+                       <p class="text-lg text-white/80 preview-text">Edite as cenas à esquerda para começar</p>
+                   </div>
 
-    <!-- Flash Sale -->
-    <section class="container mx-auto px-4 py-6">
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-            <!-- Flash Sale Header -->
-            <div class="shopee-gradient text-white p-4 flex items-center justify-between">
-                <div class="flex items-center gap-6">
-                    <h2 class="text-2xl font-bold italic flex items-center gap-2">
-                        <i class="fas fa-bolt text-yellow-300"></i>
-                        FLASH SALE
-                    </h2>
-                    <div class="flex items-center gap-2 text-sm">
-                        <span>Termina em:</span>
-                        <div class="flex gap-1" id="countdown">
-                            <span class="countdown-number" id="hours">02</span>
-                            <span class="text-xl">:</span>
-                            <span class="countdown-number" id="minutes">45</span>
-                            <span class="text-xl">:</span>
-                            <span class="countdown-number" id="seconds">30</span>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="text-white hover:text-yellow-200 flex items-center gap-1 text-sm">
-                    Ver tudo <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
+                   <!-- Playback Controls Overlay -->
+                   <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div class="flex items-center gap-4">
+                           <button onclick="app.togglePlay()" id="playBtn" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors">
+                               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                   <path d="M8 5v14l11-7z"/>
+                               </svg>
+                           </button>
+                           <div class="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer" onclick="app.seek(event)">
+                               <div id="progressBar" class="h-full bg-indigo-500 w-0 transition-all duration-100"></div>
+                           </div>
+                           <span id="timeDisplay" class="text-sm font-mono text-white/80">00:00 / 00:00</span>
+                       </div>
+                   </div>
 
-            <!-- Flash Sale Products -->
-            <div class="p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <!-- Product 1 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Fone">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -50%
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 bg-red-500 text-white text-xs text-center py-1">
-                            Vendendo rápido!
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 49,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 99,80</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-3/4 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">75% vendido</p>
-                    </div>
-                </div>
+                   <!-- Recording Indicator -->
+                   <div id="recordingIndicator" class="absolute top-4 right-4 hidden items-center gap-2 bg-red-500/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-red-500/30">
+                       <div class="w-2 h-2 bg-red-500 rounded-full recording-dot"></div>
+                       <span class="text-xs font-medium text-red-400">GRAVANDO</span>
+                   </div>
+               </div>
 
-                <!-- Product 2 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Relógio">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -40%
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 89,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 149,90</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-1/2 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">50% vendido</p>
-                    </div>
-                </div>
+               <!-- Resolution Badge -->
+               <div class="absolute top-4 left-4 px-3 py-1 bg-black/50 backdrop-blur-md rounded-full text-xs font-mono text-white/70 border border-white/10">
+                   1920 × 1080 • 30fps
+               </div>
+           </div>
 
-                <!-- Product 3 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Tênis">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -60%
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 119,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 299,90</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-5/6 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">85% vendido</p>
-                    </div>
-                </div>
+           <!-- Quick Actions -->
+           <div class="glass-panel rounded-2xl p-4 flex items-center justify-between">
+               <div class="flex items-center gap-4">
+                   <button onclick="app.addScene()" class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm transition-colors">
+                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                       </svg>
+                       Nova Cena
+                   </button>
+                   <button onclick="app.duplicateScene()" class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm transition-colors">
+                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                       </svg>
+                       Duplicar
+                   </button>
+               </div>
+               
+               <div class="flex items-center gap-2">
+                   <span class="text-xs text-slate-400">Zoom:</span>
+                   <input type="range" min="50" max="150" value="100" class="w-24" oninput="app.setZoom(this.value)">
+               </div>
+           </div>
+       </div>
 
-                <!-- Product 4 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Câmera">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -35%
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 259,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 399,90</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-1/3 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">30% vendido</p>
-                    </div>
-                </div>
+       <!-- Right Panel: Timeline & Assets -->
+       <div class="col-span-3 flex flex-col gap-4 h-full">
+           
+           <!-- Timeline -->
+           <div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col">
+               <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                   <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                   </svg>
+                   Timeline
+               </h2>
+               
+               <div class="flex-1 relative overflow-hidden">
+                   <div id="timelineTrack" class="absolute inset-0 timeline-track rounded-lg overflow-x-auto overflow-y-hidden">
+                       <div id="timelineScenes" class="flex h-full p-2 gap-1 min-w-full">
+                           <!-- Timeline items injected here -->
+                       </div>
+                       
+                       <!-- Playhead -->
+                       <div id="playhead" class="absolute top-0 bottom-0 w-0.5 bg-indigo-500 z-20 pointer-events-none playhead" style="left: 0%">
+                           <div class="absolute -top-1 -left-1.5 w-4 h-4 bg-indigo-500 rounded-full"></div>
+                       </div>
+                   </div>
+               </div>
 
-                <!-- Product 5 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Perfume">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -45%
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 79,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 145,00</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-2/3 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">65% vendido</p>
-                    </div>
-                </div>
+               <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                   <span>Total: <span id="totalDuration">0</span>s</span>
+                   <span><span id="sceneCount">0</span> cenas</span>
+               </div>
+           </div>
 
-                <!-- Product 6 -->
-                <div class="group cursor-pointer hover-lift bg-white rounded-lg border border-gray-100 overflow-hidden">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=300&fit=crop" 
-                             class="w-full aspect-square object-cover" alt="Mochila">
-                        <div class="absolute top-2 left-2 product-badge text-white text-xs px-2 py-1 rounded">
-                            -55%
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-red-500 font-bold text-lg">R$ 69,90</span>
-                            <span class="text-gray-400 text-xs line-through">R$ 155,00</span>
-                        </div>
-                        <div class="mt-2 bg-gray-200 rounded-full h-2 overflow-hidden">
-                            <div class="flash-sale-progress h-full w-4/5 rounded-full"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">80% vendido</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+           <!-- Assets Library -->
+           <div class="glass-panel rounded-2xl p-6 h-[40%] overflow-hidden flex flex-col">
+               <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wider mb-4">Biblioteca de Assets</h3>
+               
+               <div class="grid grid-cols-2 gap-2 overflow-y-auto pr-1">
+                   <div onclick="app.addAsset('gradient')" class="aspect-video rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 cursor-pointer hover:ring-2 ring-white transition-all relative group">
+                       <span class="absolute inset-0 flex items-center justify-center text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">Gradiente</span>
+                   </div>
+                   <div onclick="app.addAsset('particles')" class="aspect-video rounded-lg bg-slate-800 cursor-pointer hover:ring-2 ring-white transition-all relative group overflow-hidden">
+                       <div class="absolute inset-0 opacity-50" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 8px 8px;"></div>
+                       <span class="absolute inset-0 flex items-center justify-center text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity bg-black/50">Partículas</span>
+                   </div>
+                   <div onclick="app.addAsset('geometric')" class="aspect-video rounded-lg bg-slate-800 cursor-pointer hover:ring-2 ring-white transition-all relative group overflow-hidden">
+                       <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 100 100">
+                           <polygon points="50,10 90,90 10,90" fill="none" stroke="white" stroke-width="2"/>
+                       </svg>
+                       <span class="absolute inset-0 flex items-center justify-center text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity bg-black/50">Geométrico</span>
+                   </div>
+                   <div onclick="app.addAsset('noise')" class="aspect-video rounded-lg bg-slate-700 cursor-pointer hover:ring-2 ring-white transition-all relative group">
+                       <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter  id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%221%22/%3E%3C/svg%3E');"></div>
+                       <span class="absolute inset-0 flex items-center justify-center text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity bg-black/50">Textura</span>
+                   </div>
+               </div>
 
-    <!-- Main Products Grid -->
-    <section class="container mx-auto px-4 py-6">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Recomendados Para Você</h2>
-            <div class="flex gap-2">
-                <button class="px-4 py-2 bg-red-500 text-white rounded-full text-sm font-medium">Populares</button>
-                <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium transition">Recentes</button>
-                <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium transition">Mais Vendidos</button>
-            </div>
-        </div>
+               <div class="mt-4 pt-4 border-t border-white/10">
+                   <button onclick="app.uploadAsset()" class="w-full py-2 border border-dashed border-slate-600 hover:border-indigo-500 rounded-lg text-sm text-slate-400 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2">
+                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                       </svg>
+                       Upload de Imagem
+                   </button>
+               </div>
+           </div>
+       </div>
+   </main>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <!-- Product Card Template -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Smartwatch">
-                    <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -30%
-                    </div>
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Smartwatch Pro Series 7 - Monitor Cardíaco e GPS</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(2.4k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 299,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 429,90</span>
-                        </div>
-                        <span class="text-xs text-gray-500">1.2k vendidos</span>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+   <!-- Render Modal -->
+   <div id="renderModal" class="fixed inset-0 z-[100] hidden">
+       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="app.closeRenderModal()"></div>
+       <div class="absolute inset-0 flex items-center justify-center p-6">
+           <div class="glass-panel rounded-2xl p-8 max-w-md w-full transform transition-all scale-100">
+               <div id="renderProgress">
+                   <div class="flex items-center justify-center mb-6">
+                       <div class="w-16 h-16 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
+                   </div>
+                   <h3 class="text-xl font-bold text-center mb-2">Renderizando Vídeo...</h3>
+                   <p class="text-slate-400 text-center text-sm mb-6">Processando <span id="renderCurrent">1</span> de <span id="renderTotal">3</span> cenas</p>
+                   
+                   <div class="w-full bg-slate-800 rounded-full h-2 mb-2 overflow-hidden">
+                       <div id="renderBar" class="h-full bg-indigo-500 transition-all duration-300" style="width: 0%"></div>
+                   </div>
+                   <p id="renderStatus" class="text-xs text-slate-500 text-center font-mono">Inicializando encoder...</p>
+               </div>
 
-            <!-- Product 2 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1572569028738-411a197b83cd?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Blusa">
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Blusa Feminina de Algodão Estampada - Verão 2024</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(890)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 39,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 79,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+               <div id="renderComplete" class="hidden text-center">
+                   <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                       <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                       </svg>
+                   </div>
+                   <h3 class="text-xl font-bold mb-2">Vídeo Pronto!</h3>
+                   <p class="text-slate-400 text-sm mb-6">Seu vídeo foi renderizado com sucesso.</p>
+                   
+                   <div class="space-y-3">
+                       <button onclick="app.downloadVideo()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                           </svg>
+                           Baixar MP4
+                       </button>
+                       <button onclick="app.closeRenderModal()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm transition-colors">
+                           Fechar
+                       </button>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
 
-            <!-- Product 3 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1585565804112-f201f68c48b4?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Ferramentas">
-                    <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -25%
-                    </div>
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Kit Ferramentas Profissional 150 Peças com Maleta</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(456)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 149,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 199,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-store text-gray-400"></i>
-                        <span>São Paulo</span>
-                    </div>
-                </div>
-            </div>
+   <script>
+       class Text2VideoApp {
+           constructor() {
+               this.scenes = [
+                   {
+                       id: 1,
+                       text: "Bem-vindo ao\nText2Video Studio",
+                       subtext: "Crie vídeos incríveis apenas com texto",
+                       background: "gradient",
+                       duration: 5,
+                       animation: "fade",
+                       narration: "Bem-vindo ao Text2Video Studio. Crie vídeos incríveis apenas com texto."
+                   }
+               ];
+               this.currentSceneId = 1;
+               this.isPlaying = false;
+               this.currentTime = 0;
+               this.totalDuration = 5;
+               this.playInterval = null;
+               this.zoom = 100;
+               
+               this.init();
+           }
 
-            <!-- Product 4 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Tênis Esportivo">
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Tênis Esportivo Running Ultra Leve - Masculino</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(3.2k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 89,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 159,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+           init() {
+               this.renderSceneList();
+               this.renderTimeline();
+               this.selectScene(1);
+               this.updateStats();
+           }
 
-            <!-- Product 5 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Skincare">
-                    <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -40%
-                    </div>
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Kit Skincare Completo - 5 Passos para Pele Perfeita</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(1.5k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 79,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 133,00</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+           addScene() {
+               const newId = Math.max(...this.scenes.map(s => s.id), 0) + 1;
+               const newScene = {
+                   id: newId,
+                   text: `Nova Cena ${newId}`,
+                   subtext: "Descrição da cena",
+                   background: "gradient",
+                   duration: 5,
+                   animation: "fade",
+                   narration: ""
+               };
+               this.scenes.push(newScene);
+               this.renderSceneList();
+               this.renderTimeline();
+               this.selectScene(newId);
+               this.updateStats();
+           }
 
-            <!-- Product 6 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Fone Bluetooth">
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Fone de Ouvido Bluetooth 5.3 - Cancelamento de Ruído</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(678)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 59,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 99,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-store text-gray-400"></i>
-                        <span>Rio de Janeiro</span>
-                    </div>
-                </div>
-            </div>
+           duplicateScene() {
+               if (!this.currentSceneId) return;
+               const scene = this.scenes.find(s => s.id === this.currentSceneId);
+               if (scene) {
+                   const newScene = {...scene, id: Math.max(...this.scenes.map(s => s.id)) + 1};
+                   this.scenes.push(newScene);
+                   this.renderSceneList();
+                   this.renderTimeline();
+                   this.selectScene(newScene.id);
+                   this.updateStats();
+               }
+           }
 
-            <!-- Product 7 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Câmera Instantânea">
-                    <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -20%
-                    </div>
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Câmera Instantânea Polaroid - Edição Vintage</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(234)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 399,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 499,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+           deleteScene(id, event) {
+               event.stopPropagation();
+               if (this.scenes.length <= 1) {
+                   alert("Você precisa ter pelo menos uma cena!");
+                   return;
+               }
+               this.scenes = this.scenes.filter(s => s.id !== id);
+               if (this.currentSceneId === id) {
+                   this.currentSceneId = this.scenes[0]?.id || null;
+               }
+               this.renderSceneList();
+               this.renderTimeline();
+               if (this.currentSceneId) this.selectScene(this.currentSceneId);
+               this.updateStats();
+           }
 
-            <!-- Product 8 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Panela Elétrica">
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Panela de Pressão Elétrica 6L - 10 Funções</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(4.5k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 249,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 399,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
+           selectScene(id) {
+               this.currentSceneId = id;
+               const scene = this.scenes.find(s => s.id === id);
+               
+               // Update UI selection
+               document.querySelectorAll('.scene-card').forEach(card => {
+                   card.classList.remove('ring-2', 'ring-indigo-500', 'bg-indigo-500/20');
+                   if (parseInt(card.dataset.id) === id) {
+                       card.classList.add('ring-2', 'ring-indigo-500', 'bg-indigo-500/20');
+                   }
+               });
 
-            <!-- Product 9 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Camisa Social">
-                    <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                        -35%
-                    </div>
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Camisa Social Slim Fit - 100% Algodão Egípcio</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(1.1k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 69,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 107,00</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-store text-gray-400"></i>
-                        <span>Minas Gerais</span>
-                    </div>
-                </div>
-            </div>
+               // Show editor
+               document.getElementById('sceneEditor').classList.remove('hidden');
+               
+               // Populate fields
+               document.getElementById('sceneText').value = scene.text;
+               document.getElementById('bgUrl').value = scene.background.startsWith('http') ? scene.background : '';
+               document.getElementById('sceneDuration').value = scene.duration;
+               document.getElementById('sceneAnimation').value = scene.animation;
+               document.getElementById('sceneNarration').value = scene.narration || '';
 
-            <!-- Product 10 -->
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100 overflow-hidden">
-                <div class="relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop" 
-                         class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" alt="Suplementos">
-                    <button onclick="addToCart(this)" class="absolute bottom-2 right-2 bg-white text-red-500 w-8 h-8 rounded-full shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="p-3">
-                    <h3 class="text-sm text-gray-800 line-clamp-2 mb-2 group-hover:text-red-500 transition">Whey Protein Isolado 900g - Importado USA</h3>
-                    <div class="flex items-center gap-1 mb-2">
-                        <div class="flex text-yellow-400 text-xs">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-500">(5.6k)</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-red-500 font-bold text-lg">R$ 129,90</span>
-                            <span class="text-gray-400 text-xs line-through block">R$ 199,90</span>
-                        </div>
-                    </div>
-                    <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="fas fa-truck text-green-500"></i>
-                        <span>Frete grátis</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+               // Update preview
+               this.updatePreview(scene);
+           }
 
-        <!-- Load More -->
-        <div class="text-center mt-8">
-            <button class="px-8 py-3 bg-white border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 hover:border-red-500 hover:text-red-500 transition font-medium">
-                Ver Mais Produtos
-            </button>
-        </div>
-    </section>
+           updateCurrentScene() {
+               const scene = this.scenes.find(s => s.id === this.currentSceneId);
+               if (!scene) return;
 
-    <!-- Features -->
-    <section class="bg-white border-t mt-12">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center group cursor-pointer">
-                    <div class="w-16 h-16 mx-auto mb-4 bg-red-50 rounded-full flex items-center justify-center group-hover:bg-red-100 transition">
-                        <i class="fas fa-shield-alt text-3xl text-red-500"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Compra Garantida</h4>
-                    <p class="text-sm text-gray-500">Devolução grátis em até 7 dias</p>
-                </div>
-                <div class="text-center group cursor-pointer">
-                    <div class="w-16 h-16 mx-auto mb-4 bg-orange-50 rounded-full flex items-center justify-center group-hover:bg-orange-100 transition">
-                        <i class="fas fa-truck-fast text-3xl text-orange-500"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Entrega Rápida</h4>
-                    <p class="text-sm text-gray-500">Receba em até 24h nas capitais</p>
-                </div>
-                <div class="text-center group cursor-pointer">
-                    <div class="w-16 h-16 mx-auto mb-4 bg-blue-50 rounded-full flex items-center justify-center group-hover:bg-blue-100 transition">
-                        <i class="fas fa-credit-card text-3xl text-blue-500"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Parcele em 12x</h4>
-                    <p class="text-sm text-gray-500">Sem juros no cartão de crédito</p>
-                </div>
-                <div class="text-center group cursor-pointer">
-                    <div class="w-16 h-16 mx-auto mb-4 bg-green-50 rounded-full flex items-center justify-center group-hover:bg-green-100 transition">
-                        <i class="fas fa-headset text-3xl text-green-500"></i>
-                    </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Suporte 24/7</h4>
-                    <p class="text-sm text-gray-500">Atendimento todos os dias</p>
-                </div>
-            </div>
-        </div>
-    </section>
+               scene.text = document.getElementById('sceneText').value;
+               scene.duration = parseInt(document.getElementById('sceneDuration').value) || 5;
+               scene.animation = document.getElementById('sceneAnimation').value;
+               scene.narration = document.getElementById('sceneNarration').value;
+               
+               const bgUrl = document.getElementById('bgUrl').value;
+               if (bgUrl) scene.background = bgUrl;
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h5 class="text-white font-bold text-lg mb-4">Atendimento ao Cliente</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Central de Ajuda</a></li>
-                        <li><a href="#" class="hover:text-white transition">Como Comprar</a></li>
-                        <li><a href="#" class="hover:text-white transition">Métodos de Pagamento</a></li>
-                        <li><a href="#" class="hover:text-white transition">Frete e Entrega</a></li>
-                        <li><a href="#" class="hover:text-white transition">Devoluções e Reembolso</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-lg mb-4">Sobre a ShopVerse</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition">Sobre Nós</a></li>
-                        <li><a href="#" class="hover:text-white transition">Políticas da Loja</a></li>
-                        <li><a href="#" class="hover:text-white transition">Política de Privacidade</a></li>
-                        <li><a href="#" class="hover:text-white transition">Seja um Vendedor</a></li>
-                        <li><a href="#" class="hover:text-white transition">Carreiras</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-lg mb-4">Pagamento</h5>
-                    <div class="flex flex-wrap gap-2">
-                        <div class="bg-white rounded p-2 w-12 h-8 flex items-center justify-center">
-                            <i class="fab fa-cc-visa text-blue-800 text-xl"></i>
-                        </div>
-                        <div class="bg-white rounded p-2 w-12 h-8 flex items-center justify-center">
-                            <i class="fab fa-cc-mastercard text-red-600 text-xl"></i>
-                        </div>
-                        <div class="bg-white rounded p-2 w-12 h-8 flex items-center justify-center">
-                            <i class="fab fa-cc-amex text-blue-500 text-xl"></i>
-                        </div>
-                        <div class="bg-white rounded p-2 w-12 h-8 flex items-center justify-center">
-                            <i class="fas fa-barcode text-gray-800 text-xl"></i>
-                        </div>
-                        <div class="bg-white rounded p-2 w-12 h-8 flex items-center justify-center">
-                            <i class="fab fa-pix text-green-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <h5 class="text-white font-bold text-lg mt-6 mb-4">Siga-nos</h5>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-sky-500 transition">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-lg mb-4">Newsletter</h5>
-                    <p class="text-sm mb-4">Cadastre-se e receba ofertas exclusivas!</p>
-                    <div class="flex">
-                        <input type="email" placeholder="Seu e-mail" class="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l focus:outline-none focus:border-red-500 text-white">
-                        <button class="bg-red-500 text-white px-4 py-2 rounded-r hover:bg-red-600 transition">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                    <div class="mt-6">
-                        <h6 class="text-white font-bold mb-2">Baixe o App</h6>
-                        <div class="flex gap-2">
-                            <button class="bg-gray-800 px-4 py-2 rounded flex items-center gap-2 hover:bg-gray-700 transition">
-                                <i class="fab fa-apple text-xl"></i>
-                                <div class="text-left">
-                                    <div class="text-xs">Download on</div>
-                                    <div class="text-sm font-bold">App Store</div>
-                                </div>
-                            </button>
-                            <button class="bg-gray-800 px-4 py-2 rounded flex items-center gap-2 hover:bg-gray-700 transition">
-                                <i class="fab fa-google-play text-xl"></i>
-                                <div class="text-left">
-                                    <div class="text-xs">Get it on</div>
-                                    <div class="text-sm font-bold">Google Play</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-sm">
-                <p>&copy; 2024 ShopVerse. Todos os direitos reservados.</p>
-                <p class="mt-2 text-gray-500">CNPJ: 12.345.678/0001-90 | Endereço: Av. Paulista, 1000 - São Paulo, SP</p>
-            </div>
-        </div>
-    </footer>
+               this.updatePreview(scene);
+               this.renderSceneList();
+               this.renderTimeline();
+               this.updateStats();
+           }
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-3">
-        <i class="fas fa-check-circle text-green-400 text-xl"></i>
-        <div>
-            <h4 class="font-bold">Adicionado ao carrinho!</h4>
-            <p class="text-sm text-gray-300">Produto adicionado com sucesso.</p>
-        </div>
-    </div>
+           setBackground(type) {
+               const scene = this.scenes.find(s => s.id === this.currentSceneId);
+               if (scene) {
+                   scene.background = type;
+                   document.getElementById('bgUrl').value = '';
+                   this.updateCurrentScene();
+               }
+           }
 
-    <script>
-        // Countdown Timer
-        function updateCountdown() {
-            const now = new Date();
-            const endOfDay = new Date();
-            endOfDay.setHours(23, 59, 59, 999);
-            
-            const diff = endOfDay - now;
-            
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-        }
-        
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+           updatePreview(scene) {
+               const previewBg = document.getElementById('previewBackground');
+               const previewText = document.getElementById('previewText');
+               
+               // Background
+               const bgMap = {
+                   'gradient': 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%)',
+                   'nature': 'linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%)',
+                   'dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #000000 100%)',
+                   'sunset': 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%)'
+               };
+               
+               if (bgMap[scene.background]) {
+                   previewBg.style.background = bgMap[scene.background];
+               } else if (scene.background.startsWith('http')) {
+                   previewBg.style.background = `url(${scene.background}) center/cover`;
+               } else {
+                   previewBg.style.background = bgMap['gradient'];
+               }
 
-        // Add to Cart Functionality
-        let cartCount = 3;
-        
-        function addToCart(button) {
-            cartCount++;
-            document.getElementById('cart-count').textContent = cartCount;
-            
-            // Animation on cart icon
-            const cartIcon = document.querySelector('.fa-shopping-cart');
-            cartIcon.parentElement.classList.add('scale-125');
-            setTimeout(() => {
-                cartIcon.parentElement.classList.remove('scale-125');
-            }, 200);
-            
-            // Show toast
-            const toast = document.getElementById('toast');
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-            
-            // Button animation
-            button.innerHTML = '<i class="fas fa-check"></i>';
-            button.classList.add('bg-green-500', 'text-white');
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-plus"></i>';
-                button.classList.remove('bg-green-500', 'text-white');
-            }, 1000);
-        }
+               // Text with animation
+               const lines = scene.text.split('\n');
+               const mainText = lines[0] || 'Sem Título';
+               const subText = lines.slice(1).join(' ') || scene.subtext || '';
+               
+               let animationClass = 'preview-text';
+               if (scene.animation === 'slide') animationClass += ' animate-bounce';
+               if (scene.animation === 'scale') animationClass += ' transform scale-110';
+               
+               previewText.innerHTML = `
+                   <h2 class="text-4xl font-bold mb-4 ${animationClass} leading-tight">${mainText}</h2>
+                   ${subText ? `<p class="text-lg text-white/80 ${animationClass}" style="animation-delay: 0.2s">${subText}</p>` : ''}
+               `;
 
-        // Hero Slider Auto-play
-        const heroImages = [
-            'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1200&h=400&fit=crop'
-        ];
-        
-        let currentSlide = 0;
-        const heroSlider = document.getElementById('hero-slider');
-        
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % heroImages.length;
-            heroSlider.querySelector('img').style.opacity = '0';
-            setTimeout(() => {
-                heroSlider.querySelector('img').src = heroImages[currentSlide];
-                heroSlider.querySelector('img').style.opacity = '1';
-            }, 300);
-        }, 5000);
+               // Apply animation styles
+               if (scene.animation === 'typewriter') {
+                   previewText.querySelector('h2').style.animation = 'none';
+                   previewText.querySelector('h2').style.overflow = 'hidden';
+                   previewText.querySelector('h2').style.borderRight = '2px solid white';
+                   previewText.querySelector('h2').style.whiteSpace = 'nowrap';
+                   previewText.querySelector('h2').style.animation = 'typing 3s steps(40, end), blink-caret 0.75s step-end infinite';
+               }
+           }
 
-        // Scroll Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+           renderSceneList() {
+               const container = document.getElementById('sceneList');
+               container.innerHTML = this.scenes.map((scene, index) => `
+                   <div class="scene-card bg-slate-800/50 rounded-xl p-4 cursor-pointer border border-white/5 ${scene.id === this.currentSceneId ? 'ring-2 ring-indigo-500 bg-indigo-500/20' : ''}" 
+                        data-id="${scene.id}" onclick="app.selectScene(${scene.id})">
+                       <div class="flex items-start justify-between mb-2">
+                           <div class="flex items-center gap-3">
+                               <div class="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-xs font-bold text-slate-300">
+                                   ${index + 1}
+                               </div>
+                               <div class="w-12 h-8 rounded bg-slate-700 overflow-hidden">
+                                   <div class="w-full h-full ${this.getBgClass(scene.background)}"></div>
+                               </div>
+                           </div>
+                           <button onclick="app.deleteScene(${scene.id}, event)" class="text-slate-500 hover:text-red-400 transition-colors">
+                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                               </svg>
+                           </button>
+                       </div>
+                       <h4 class="font-medium text-sm text-white mb-1 line-clamp-2">${scene.text.split('\n')[0]}</h4>
+                       <div class="flex items-center gap-2 text-xs text-slate-400">
+                           <span>${scene.duration}s</span>
+                           <span>•</span>
+                           <span class="capitalize">${scene.animation}</span>
+                       </div>
+                   </div>
+               `).join('');
+           }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+           getBgClass(bg) {
+               const map = {
+                   'gradient': 'bg-gradient-to-br from-indigo-600 to-purple-600',
+                   'nature': 'bg-gradient-to-br from-green-600 to-emerald-800',
+                   'dark': 'bg-gradient-to-br from-slate-800 to-black',
+                   'sunset': 'bg-gradient-to-br from-orange-500 to-red-600'
+               };
+               return map[bg] || 'bg-gradient-to-br from-indigo-600 to-purple-600';
+           }
 
-        document.querySelectorAll('.hover-lift').forEach((el) => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
-    </script>
+           renderTimeline() {
+               const container = document.getElementById('timelineScenes');
+               const totalDur = this.scenes.reduce((acc, s) => acc + s.duration, 0);
+               
+               container.innerHTML = this.scenes.map(scene => {
+                   const width = (scene.duration / totalDur) * 100;
+                   return `
+                       <div class="h-full bg-indigo-600/30 border border-indigo-500/30 rounded relative group cursor-pointer hover:bg-indigo-600/50 transition-colors flex items-center justify-center text-xs font-medium overflow-hidden"
+                            style="width: ${width}%"
+                            onclick="app.selectScene(${scene.id}); app.seekToScene(${scene.id})">
+                           <span class="truncate px-2">${scene.text.substring(0, 20)}</span>
+                           <div class="absolute bottom-0 left-0 h-1 bg-indigo-500" style="width: ${scene.id === this.currentSceneId ? '100%' : '0%'}"></div>
+                       </div>
+                   `;
+               }).join('');
+           }
+
+           updateStats() {
+               const total = this.scenes.reduce((acc, s) => acc + s.duration, 0);
+               document.getElementById('totalDuration').textContent = total;
+               document.getElementById('sceneCount').textContent = this.scenes.length;
+               
+               const mins = Math.floor(total / 60);
+               const secs = total % 60;
+               document.getElementById('timeDisplay').textContent = 
+                   `00:00 / ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+           }
+
+           togglePlay() {
+               if (this.isPlaying) {
+                   this.pause();
+               } else {
+                   this.play();
+               }
+           }
+
+           play() {
+               this.isPlaying = true;
+               document.getElementById('playBtn').innerHTML = `
+                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                   </svg>
+               `;
+               
+               let currentSceneIndex = 0;
+               let sceneStartTime = 0;
+               
+               this.playInterval = setInterval(() => {
+                   this.currentTime += 0.1;
+                   
+                   // Find current scene
+                   let accumulated = 0;
+                   for (let i = 0; i < this.scenes.length; i++) {
+                       if (this.currentTime >= accumulated && this.currentTime < accumulated + this.scenes[i].duration) {
+                           if (currentSceneIndex !== i) {
+                               currentSceneIndex = i;
+                               this.selectScene(this.scenes[i].id);
+                           }
+                           break;
+                       }
+                       accumulated += this.scenes[i].duration;
+                   }
+                   
+                   // Update progress
+                   const total = this.scenes.reduce((acc, s) => acc + s.duration, 0);
+                   const progress = (this.currentTime / total) * 100;
+                   document.getElementById('progressBar').style.width = `${Math.min(progress, 100)}%`;
+                   document.getElementById('playhead').style.left = `${Math.min(progress, 100)}%`;
+                   
+                   // Update time display
+                   const mins = Math.floor(this.currentTime / 60);
+                   const secs = Math.floor(this.currentTime % 60);
+                   const totalMins = Math.floor(total / 60);
+                   const totalSecs = total % 60;
+                   document.getElementById('timeDisplay').textContent = 
+                       `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} / ${totalMins.toString().padStart(2, '0')}:${totalSecs.toString().padStart(2, '0')}`;
+                   
+                   // Stop at end
+                   if (this.currentTime >= total) {
+                       this.pause();
+                       this.currentTime = 0;
+                   }
+               }, 100);
+           }
+
+           pause() {
+               this.isPlaying = false;
+               clearInterval(this.playInterval);
+               document.getElementById('playBtn').innerHTML = `
+                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M8 5v14l11-7z"/>
+                   </svg>
+               `;
+           }
+
+           seek(event) {
+               const rect = event.currentTarget.getBoundingClientRect();
+               const x = event.clientX - rect.left;
+               const percent = x / rect.width;
+               const total = this.scenes.reduce((acc, s) => acc + s.duration, 0);
+               this.currentTime = total * percent;
+               
+               // Update UI
+               document.getElementById('progressBar').style.width = `${percent * 100}%`;
+               document.getElementById('playhead').style.left = `${percent * 100}%`;
+               
+               // Find and show scene at this time
+               let accumulated = 0;
+               for (let scene of this.scenes) {
+                   if (this.currentTime >= accumulated && this.currentTime < accumulated + scene.duration) {
+                       this.selectScene(scene.id);
+                       break;
+                   }
+                   accumulated += scene.duration;
+               }
+           }
+
+           seekToScene(id) {
+               let accumulated = 0;
+               for (let scene of this.scenes) {
+                   if (scene.id === id) {
+                       this.currentTime = accumulated;
+                       const total = this.scenes.reduce((acc, s) => acc + s.duration, 0);
+                       const percent = (accumulated / total) * 100;
+                       document.getElementById('progressBar').style.width = `${percent}%`;
+                       document.getElementById('playhead').style.left = `${percent}%`;
+                       break;
+                   }
+                   accumulated += scene.duration;
+               }
+           }
+
+           setZoom(value) {
+               this.zoom = value;
+               const container = document.getElementById('previewContainer');
+               container.style.transform = `scale(${value / 100})`;
+           }
+
+           playNarration() {
+               const scene = this.scenes.find(s => s.id === this.currentSceneId);
+               if (scene && scene.narration && 'speechSynthesis' in window) {
+                   const utterance = new SpeechSynthesisUtterance(scene.narration);
+                   utterance.lang = 'pt-BR';
+                   utterance.rate = 0.9;
+                   speechSynthesis.speak(utterance);
+               }
+           }
+
+           addAsset(type) {
+               const scene = this.scenes.find(s => s.id === this.currentSceneId);
+               if (scene) {
+                   scene.background = type;
+                   this.updateCurrentScene();
+               }
+           }
+
+           uploadAsset() {
+               const input = document.createElement('input');
+               input.type = 'file';
+               input.accept = 'image/*';
+               input.onchange = (e) => {
+                   const file = e.target.files[0];
+                   if (file) {
+                       const url = URL.createObjectURL(file);
+                       const scene = this.scenes.find(s => s.id === this.currentSceneId);
+                       if (scene) {
+                           scene.background = url;
+                           this.updateCurrentScene();
+                       }
+                   }
+               };
+               input.click();
+           }
+
+           renderVideo() {
+               const modal = document.getElementById('renderModal');
+               modal.classList.remove('hidden');
+               
+               document.getElementById('renderProgress').classList.remove('hidden');
+               document.getElementById('renderComplete').classList.add('hidden');
+               
+               const total = this.scenes.length;
+               document.getElementById('renderTotal').textContent = total;
+               
+               let current = 0;
+               const interval = setInterval(() => {
+                   current++;
+                   const percent = (current / total) * 100;
+                   
+                   document.getElementById('renderCurrent').textContent = current;
+                   document.getElementById('renderBar').style.width = `${percent}%`;
+                   document.getElementById('renderStatus').textContent = 
+                       `Processando cena ${current}: ${this.scenes[current-1]?.text.substring(0, 30)}...`;
+                   
+                   // Show recording indicator during render
+                   document.getElementById('recordingIndicator').classList.remove('hidden');
+                   document.getElementById('recordingIndicator').classList.add('flex');
+                   
+                   if (current >= total) {
+                       clearInterval(interval);
+                       setTimeout(() => {
+                           document.getElementById('renderProgress').classList.add('hidden');
+                           document.getElementById('renderComplete').classList.remove('hidden');
+                           document.getElementById('recordingIndicator').classList.add('hidden');
+                           document.getElementById('recordingIndicator').classList.remove('flex');
+                       }, 500);
+                   }
+               }, 800);
+           }
+
+           closeRenderModal() {
+               document.getElementById('renderModal').classList.add('hidden');
+           }
+
+           downloadVideo() {
+               // Create a simple video file (in reality, this would use FFmpeg.js or similar)
+               const canvas = document.createElement('canvas');
+               canvas.width = 1920;
+               canvas.height = 1080;
+               const ctx = canvas.getContext('2d');
+               
+               // Draw current frame
+               ctx.fillStyle = '#0f172a';
+               ctx.fillRect(0, 0, canvas.width, canvas.height);
+               ctx.fillStyle = 'white';
+               ctx.font = 'bold 60px Arial';
+               ctx.textAlign = 'center';
+               ctx.fillText('Text2Video Export', canvas.width/2, canvas.height/2);
+               
+               // Download as image (simulating video)
+               const link = document.createElement('a');
+               link.download = 'meu-video-text2video.png';
+               link.href = canvas.toDataURL();
+               link.click();
+               
+               alert('Em uma implementação real, isto baixaria um arquivo MP4. Por enquanto, baixamos uma imagem representativa do projeto.');
+           }
+
+           exportProject() {
+               const data = JSON.stringify(this.scenes, null, 2);
+               const blob = new Blob([data], {type: 'application/json'});
+               const url = URL.createObjectURL(blob);
+               const link = document.createElement('a');
+               link.download = 'text2video-project.json';
+               link.href = url;
+               link.click();
+           }
+
+           importProject() {
+               const input = document.createElement('input');
+               input.type = 'file';
+               input.accept = '.json';
+               input.onchange = (e) => {
+                   const file = e.target.files[0];
+                   const reader = new FileReader();
+                   reader.onload = (event) => {
+                       try {
+                           this.scenes = JSON.parse(event.target.result);
+                           this.currentSceneId = this.scenes[0]?.id || null;
+                           this.renderSceneList();
+                           this.renderTimeline();
+                           if (this.currentSceneId) this.selectScene(this.currentSceneId);
+                           this.updateStats();
+                           alert('Projeto importado com sucesso!');
+                       } catch (err) {
+                           alert('Erro ao importar projeto');
+                       }
+                   };
+                   reader.readAsText(file);
+               };
+               input.click();
+           }
+       }
+
+       // Initialize app
+       const app = new Text2VideoApp();
+
+       // Add keyboard shortcuts
+       document.addEventListener('keydown', (e) => {
+           if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+           
+           if (e.code === 'Space') {
+               e.preventDefault();
+               app.togglePlay();
+           }
+           if (e.code === 'KeyN' && e.ctrlKey) {
+               e.preventDefault();
+               app.addScene();
+           }
+       });
+
+       // Add CSS for typewriter animation
+       const style = document.createElement('style');
+       style.textContent = `
+           @keyframes typing {
+               from { width: 0 }
+               to { width: 100% }
+           }
+           @keyframes blink-caret {
+               from, to { border-color: transparent }
+               50% { border-color: white; }
+           }
+       `;
+       document.head.appendChild(style);
+   </script>
 </body>
 </html>
